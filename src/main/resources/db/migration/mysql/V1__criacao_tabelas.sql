@@ -22,4 +22,9 @@ CREATE TABLE pauta (
   inicio_sessao_votacao DATETIME NOT NULL,
   fim_sessao_votacao DATETIME NOT NULL,
   id_pauta INT NOT NULL,
-  PRIMARY KEY (`id_sessao_votacao`)) DEFAULT CHARSET=utf8;
+  PRIMARY KEY (id_sessao_votacao)) DEFAULT CHARSET=utf8;
+  
+  ALTER TABLE sessao_votacao ADD CONSTRAINT fk_sessao_pauta FOREIGN KEY (id_pauta) REFERENCES pauta (id_pauta);
+ALTER TABLE voto ADD CONSTRAINT fk_voto_associado FOREIGN KEY (id_associado) REFERENCES associado (id_associado);
+ALTER TABLE voto ADD CONSTRAINT fk_voto_sessao FOREIGN KEY (id_sessao_votacao) REFERENCES sessao_votacao (id_sessao_votacao);
+  
