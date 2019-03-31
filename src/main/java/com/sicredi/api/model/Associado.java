@@ -16,22 +16,27 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Builder
-@AllArgsConstructor
 @NoArgsConstructor
+@AllArgsConstructor
 @Getter
 @Setter
 @Entity
-@Table(name = "pauta")
-public class Pauta implements Serializable {
-	private static final long serialVersionUID = 7900240469798549445L;
+@Table(name = "associado")
+public class Associado implements Serializable {
+	private static final long serialVersionUID = 8159863893052383591L;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-
-	@Column(name = "id_pauta", nullable = false)
+	@Column(name = "id_associado", nullable = false)
 	private Long id;
 
-	@Column(name = "descricao", nullable = false)
-	private String descricao;
+	@Column(name = "nome", nullable = false)
+	private String nome;
+
+	@Column(name = "login", nullable = false)
+	private String login;
+
+	@Column(name = "senha", nullable = false)
+	private String senha;
 
 }
