@@ -1,7 +1,5 @@
 package com.sicredi.api.controller;
 
-import java.util.ArrayList;
-
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,7 +30,6 @@ public class PautaController {
 		Response<Pauta> response = new Response<Pauta>();
 
 		if (result.hasErrors()) {
-			response.setErrors(new ArrayList<String>());
 			result.getAllErrors().forEach(
 					error -> response.getErrors().add(error.getDefaultMessage()));
 			return ResponseEntity.badRequest().body(response);
