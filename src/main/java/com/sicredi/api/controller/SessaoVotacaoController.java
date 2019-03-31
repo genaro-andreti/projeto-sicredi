@@ -1,7 +1,7 @@
 package com.sicredi.api.controller;
 
 import java.time.LocalDateTime;
-import java.util.Optional;
+import java.util.ArrayList;
 
 import javax.validation.Valid;
 
@@ -35,8 +35,9 @@ public class SessaoVotacaoController {
 		Response<SessaoVotacao> response = new Response<SessaoVotacao>();
 
 		if (result.hasErrors()) {
+			response.setErrors(new ArrayList<String>());
 			result.getAllErrors().forEach(
-					error -> Optional.ofNullable(response).get().getErrors().get().add(error.getDefaultMessage()));
+					error -> response.getErrors().add(error.getDefaultMessage()));
 			return ResponseEntity.badRequest().body(response);
 		}
 

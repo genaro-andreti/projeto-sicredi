@@ -1,6 +1,8 @@
 package com.sicredi.api.controller;
 
-import java.util.Optional;
+import java.util.ArrayList;
+
+import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -26,12 +28,13 @@ public class AssociadoController {
 	@SuppressWarnings("static-access")
 	@ResponseBody
 	@PostMapping(path = "/cadastrar", produces = "application/json")
-	public ResponseEntity<Response<Associado>> cadastrar(@RequestBody AssociadoDto associadoDto, BindingResult result) {
+	public ResponseEntity<Response<Associado>> cadastrar(@Valid @RequestBody AssociadoDto associadoDto, BindingResult result) {
 		Response<Associado> response = new Response<Associado>();
 
 		if (result.hasErrors()) {
+			response.setErrors(new ArrayList<String>());
 			result.getAllErrors().forEach(
-					error -> Optional.ofNullable(response).get().getErrors().get().add(error.getDefaultMessage()));
+					error -> response.getErrors().add(error.getDefaultMessage()));
 			return ResponseEntity.badRequest().body(response);
 		}
 
