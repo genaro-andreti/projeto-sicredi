@@ -42,5 +42,15 @@ public class SessaoVotacao implements Serializable {
 	@ManyToOne
 	@JoinColumn(name = "id_pauta", referencedColumnName = "id_pauta", nullable = false)
 	private Pauta pauta;
+	
+	public Boolean sessaoFechada() {
+		if(this.fimSessaoVotacao != null && this.fimSessaoVotacao != null) {
+			LocalDateTime now = LocalDateTime.now();
+			Boolean isInicioBeforeOrEqual = this.fimSessaoVotacao.isBefore(now) || this.fimSessaoVotacao.isEqual(now);
+			Boolean isFimAfterOrEqual = this.fimSessaoVotacao.isAfter(now) || this.fimSessaoVotacao.isEqual(now);
+			return isInicioBeforeOrEqual && isFimAfterOrEqual;
+		}
+		return Boolean.FALSE;
+	}
 
 }

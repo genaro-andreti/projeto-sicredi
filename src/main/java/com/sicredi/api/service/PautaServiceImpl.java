@@ -17,4 +17,9 @@ public class PautaServiceImpl implements PautaService {
 		return pautaRepository.save(pauta);
 	}
 
+	@Override
+	public Boolean pautaCadastrada(Long idPauta) {
+		return pautaRepository.existsById(idPauta);
+	}
+
 }
