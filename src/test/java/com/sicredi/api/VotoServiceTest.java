@@ -50,14 +50,14 @@ public class VotoServiceTest {
 	@MockBean
 	private VotoRepository votoRepository;
 
-	@SuppressWarnings("static-access")
 	@Test
 	public void quandoCadastraVoto() {
-		Associado associadoMock = new Associado().builder().id(1L).build();
-		SessaoVotacao sessaoVotacaoMock = new SessaoVotacao().builder().id(1L)
-				.pauta(new Pauta().builder().id(1L).build()).inicioSessaoVotacao(LocalDateTime.now())
+		Associado associadoMock = Associado.builder().id(1L).build();
+		SessaoVotacao sessaoVotacaoMock = SessaoVotacao.builder().id(1L)
+				.pauta(Pauta.builder().id(1L).build()).inicioSessaoVotacao(LocalDateTime.now())
 				.fimSessaoVotacao(LocalDateTime.now().plusMinutes(2)).build();
-		Voto votoMock = new Voto().builder().id(1L).decisaoVoto(VotoEnum.SIM).associado(associadoMock)
+		new Voto();
+		Voto votoMock = Voto.builder().id(1L).decisaoVoto(VotoEnum.SIM).associado(associadoMock)
 				.sessaoVotacao(sessaoVotacaoMock).build();
 
 		Mockito.when(associadoService.associadoCadastrado(votoMock.getAssociado().getId())).thenReturn(Boolean.TRUE);

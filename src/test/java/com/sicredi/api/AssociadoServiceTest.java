@@ -23,11 +23,10 @@ public class AssociadoServiceTest {
 	@MockBean
 	private AssociadoRepository AssociadoRepository;
 
-	@SuppressWarnings("static-access")
 	@Test
 	public void quandoInserimosUmAssociado() {
 
-		Associado associadoMock = new Associado().builder().id(1l).nome("Genaro").login("genaro").senha("senha")
+		Associado associadoMock = Associado.builder().id(1l).nome("Genaro").login("genaro").senha("senha")
 				.build();
 
 		Mockito.when(associadoService.cadastrar(associadoMock)).thenReturn(associadoMock);

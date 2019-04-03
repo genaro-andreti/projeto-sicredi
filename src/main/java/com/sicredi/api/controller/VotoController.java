@@ -28,7 +28,6 @@ public class VotoController {
 	@Autowired
 	private VotoService votoService;
 
-	@SuppressWarnings("static-access")
 	@ResponseBody
 	@PostMapping(path = "/cadastrar", produces = "application/json")
 	public ResponseEntity<Response<Voto>> cadastrar(@Valid @RequestBody VotoDto votoDto, BindingResult result) {
@@ -40,8 +39,8 @@ public class VotoController {
 		}
 
 		Voto voto = votoService.cadastrar(
-				new Voto().builder().associado(new Associado().builder().id(votoDto.getIdAssociado()).build())
-						.sessaoVotacao(new SessaoVotacao().builder().id(votoDto.getIdSessaoVotacao()).build())
+				Voto.builder().associado(Associado.builder().id(votoDto.getIdAssociado()).build())
+						.sessaoVotacao(SessaoVotacao.builder().id(votoDto.getIdSessaoVotacao()).build())
 						.decisaoVoto(votoDto.getValorVoto()).build());
 		response.setData(voto);
 		return ResponseEntity.ok(response);

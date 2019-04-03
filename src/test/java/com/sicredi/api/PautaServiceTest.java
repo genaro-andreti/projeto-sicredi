@@ -23,11 +23,10 @@ public class PautaServiceTest {
 	@MockBean
 	private PautaRepository pautaRepository;
 
-	@SuppressWarnings("static-access")
 	@Test
 	public void quandoInserimosUmaPauta() {
 
-		Pauta pautaMock = new Pauta().builder().id(1l).descricao("Teste cadastro pauta").build();
+		Pauta pautaMock = Pauta.builder().id(1l).descricao("Teste cadastro pauta").build();
 
 		Mockito.when(pautaService.cadastrar(pautaMock)).thenReturn(pautaMock);
 

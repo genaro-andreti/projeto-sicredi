@@ -26,7 +26,6 @@ public class SessaoVotacaoController {
 	@Autowired
 	private SessaoVotacaoService sessaoVotacaoService;
 
-	@SuppressWarnings("static-access")
 	@ResponseBody
 	@PostMapping(path = "/cadastrar", produces = "application/json")
 	public ResponseEntity<Response<SessaoVotacao>> cadastrar(@Valid @RequestBody SessaoVotacaoDto sessaoVotacaoDto,
@@ -40,9 +39,9 @@ public class SessaoVotacaoController {
 		}
 
 		LocalDateTime dataInicio = LocalDateTime.now();
-		SessaoVotacao sessaoVotacao = sessaoVotacaoService.cadastrar(new SessaoVotacao().builder()
+		SessaoVotacao sessaoVotacao = sessaoVotacaoService.cadastrar(SessaoVotacao.builder()
 				.inicioSessaoVotacao(dataInicio).fimSessaoVotacao(sessaoVotacaoDto.dataFim(dataInicio))
-				.pauta(new Pauta().builder().id(sessaoVotacaoDto.getIdPauta()).build()).build());
+				.pauta(Pauta.builder().id(sessaoVotacaoDto.getIdPauta()).build()).build());
 
 		response.setData(sessaoVotacao);
 		return ResponseEntity.ok(response);

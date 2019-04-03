@@ -26,11 +26,10 @@ public class SessaoVotacaoServiceTest {
 	@MockBean
 	private SessaoVotacaoRepository ressaoVotacaoRepository;
 
-	@SuppressWarnings("static-access")
 	@Test
 	public void quandoCadastraSessaoVotacao() {
-		SessaoVotacao sessaoVotacaoMock = new SessaoVotacao().builder().id(1L)
-				.pauta(new Pauta().builder().id(1L).build()).inicioSessaoVotacao(LocalDateTime.now())
+		SessaoVotacao sessaoVotacaoMock = SessaoVotacao.builder().id(1L)
+				.pauta(Pauta.builder().id(1L).build()).inicioSessaoVotacao(LocalDateTime.now())
 				.fimSessaoVotacao(LocalDateTime.now().plusMinutes(2L)).build();
 
 		Mockito.when(sessaoVotacaoService.cadastrar(sessaoVotacaoMock)).thenReturn(sessaoVotacaoMock);

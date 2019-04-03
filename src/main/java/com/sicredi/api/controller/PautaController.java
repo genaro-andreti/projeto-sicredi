@@ -23,7 +23,6 @@ public class PautaController {
 	@Autowired
 	private PautaService pautaService;
 
-	@SuppressWarnings("static-access")
 	@ResponseBody
 	@PostMapping(path = "/cadastrar", produces = "application/json")
 	public ResponseEntity<Response<Pauta>> cadastrar(@Valid @RequestBody PautaDto pautaDto, BindingResult result) {
@@ -36,7 +35,7 @@ public class PautaController {
 		}
 
 		Pauta pautaCadastrada = pautaService
-				.cadastrar(new Pauta().builder().descricao(pautaDto.getDescricao()).build());
+				.cadastrar(Pauta.builder().descricao(pautaDto.getDescricao()).build());
 		response.setData(pautaCadastrada);
 
 		return ResponseEntity.ok(response);

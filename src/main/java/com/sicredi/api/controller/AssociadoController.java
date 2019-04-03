@@ -23,7 +23,6 @@ public class AssociadoController {
 	@Autowired
 	private AssociadoService associadoService;
 
-	@SuppressWarnings("static-access")
 	@ResponseBody
 	@PostMapping(path = "/cadastrar", produces = "application/json")
 	public ResponseEntity<Response<Associado>> cadastrar(@Valid @RequestBody AssociadoDto associadoDto, BindingResult result) {
@@ -35,7 +34,7 @@ public class AssociadoController {
 			return ResponseEntity.badRequest().body(response);
 		}
 
-		Associado associadoCadastrado = associadoService.cadastrar(new Associado().builder()
+		Associado associadoCadastrado = associadoService.cadastrar(Associado.builder()
 				.nome(associadoDto.getNome()).login(associadoDto.getLogin()).senha(associadoDto.getSenha()).build());
 		response.setData(associadoCadastrado);
 		return ResponseEntity.ok(response);
