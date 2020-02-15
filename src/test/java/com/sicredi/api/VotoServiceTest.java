@@ -1,7 +1,6 @@
 package com.sicredi.api;
 
 import java.time.LocalDateTime;
-import java.util.Optional;
 
 import org.assertj.core.api.Assertions;
 import org.junit.Test;
@@ -52,22 +51,35 @@ public class VotoServiceTest {
 
 	@Test
 	public void quandoCadastraVoto() {
-		Associado associadoMock = Associado.builder().id(1L).build();
-		SessaoVotacao sessaoVotacaoMock = SessaoVotacao.builder().id(1L)
-				.pauta(Pauta.builder().id(1L).build()).inicioSessaoVotacao(LocalDateTime.now())
-				.fimSessaoVotacao(LocalDateTime.now().plusMinutes(2)).build();
-		new Voto();
-		Voto votoMock = Voto.builder().id(1L).decisaoVoto(VotoEnum.SIM).associado(associadoMock)
-				.sessaoVotacao(sessaoVotacaoMock).build();
+		Associado associadoMock = new Associado();
+		associadoMock.setId("14");
+		associadoMock.setLogin("98999168034");
 
-		Mockito.when(associadoService.associadoCadastrado(votoMock.getAssociado().getId())).thenReturn(Boolean.TRUE);
-		Mockito.when(sessaoVotacaoService.sessaoVotacaoCadastrado(sessaoVotacaoMock.getId()))
-				.thenReturn(Optional.of(sessaoVotacaoMock));
+		Pauta pautaMock = new Pauta();
+		pautaMock.setId("1");
+
+		SessaoVotacao sessaoVotacaoMock = new SessaoVotacao();
+		sessaoVotacaoMock.setId("1");
+		sessaoVotacaoMock.setInicioSessaoVotacao(LocalDateTime.now());
+		sessaoVotacaoMock.setFimSessaoVotacao(LocalDateTime.now().plusMinutes(2L));
+		sessaoVotacaoMock.setPauta(pautaMock);
+
+		Voto votoMock = new Voto();
+		votoMock.setId("1");
+		votoMock.setAssociado(associadoMock);
+		votoMock.setSessaoVotacao(sessaoVotacaoMock);
+		votoMock.setDecisaoVoto(VotoEnum.SIM);
+
+		Mockito.when(associadoService.associadoCadastrado(votoMock.getAssociado().getId()).block())
+				.thenReturn(Boolean.TRUE);
+		Mockito.when(sessaoVotacaoService.sessaoVotacaoCadastrado(sessaoVotacaoMock.getId()).block())
+				.thenReturn(sessaoVotacaoMock);
+
 		Mockito.when(votoService.votoAssociadoCadastradoParaPauta(votoMock.getAssociado().getId(),
 				votoMock.getSessaoVotacao().getPauta().getId())).thenReturn(Boolean.FALSE);
-		Mockito.when(votoService.cadastrar(votoMock)).thenReturn(votoMock);
+		Mockito.when(votoService.cadastrar(votoMock).block()).thenReturn(votoMock);
 
-		Voto voto = votoService.cadastrar(votoMock);
+		Voto voto = votoService.cadastrar(votoMock).block();
 
 		Assertions.assertThat(votoMock.getId().equals(voto.getId()));
 		Assertions.assertThat(votoMock.getAssociado().equals(voto.getAssociado()));

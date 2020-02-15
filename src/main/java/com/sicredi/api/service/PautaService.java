@@ -2,10 +2,12 @@ package com.sicredi.api.service;
 
 import com.sicredi.api.model.Pauta;
 
+import reactor.core.publisher.Mono;
+
 public interface PautaService {
 	
-	Pauta cadastrar(Pauta pauta);
+	Mono<Pauta> cadastrar(Pauta pauta);
 	
-	Boolean pautaCadastrada(Long idPauta);
+	Mono<Boolean> pautaCadastrada(String idPauta);
 
 }

@@ -13,6 +13,8 @@ import com.sicredi.api.model.Associado;
 import com.sicredi.api.repository.AssociadoRepository;
 import com.sicredi.api.service.AssociadoService;
 
+import reactor.core.publisher.Mono;
+
 @RunWith(SpringRunner.class)
 @SpringBootTest
 public class AssociadoServiceTest {
@@ -26,17 +28,20 @@ public class AssociadoServiceTest {
 	@Test
 	public void quandoInserimosUmAssociado() {
 
-		Associado associadoMock = Associado.builder().id(1l).nome("Genaro").login("genaro").senha("senha")
-				.build();
+		Associado associadoMock = new Associado();
+		associadoMock.setId("5e46bb3dd52f4d61dc0b73ae");
+		associadoMock.setNome("Genaro");
+		associadoMock.setLogin("98999168034");
+		associadoMock.setSenha("123456");
+				
+		Mockito.when(associadoService.cadastrar(associadoMock).block()).thenReturn(associadoMock);
 
-		Mockito.when(associadoService.cadastrar(associadoMock)).thenReturn(associadoMock);
+		Mono<Associado> associado = associadoService.cadastrar(associadoMock);
 
-		Associado associado = associadoService.cadastrar(associadoMock);
-
-		Assertions.assertThat(associado.getId()).isEqualTo(associadoMock.getId());
-		Assertions.assertThat(associado.getNome()).isEqualTo(associadoMock.getNome());
-		Assertions.assertThat(associado.getLogin()).isEqualTo(associadoMock.getLogin());
-		Assertions.assertThat(associado.getSenha()).isEqualTo(associadoMock.getSenha());
+		Assertions.assertThat(associado.block().getId()).isEqualTo(associadoMock.getId());
+		Assertions.assertThat(associado.block().getNome()).isEqualTo(associadoMock.getNome());
+		Assertions.assertThat(associado.block().getLogin()).isEqualTo(associadoMock.getLogin());
+		Assertions.assertThat(associado.block().getSenha()).isEqualTo(associadoMock.getSenha());
 	}
 
 }

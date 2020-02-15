@@ -15,11 +15,14 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.sicredi.api.dto.RetornoVotacaoDto;
 import com.sicredi.api.dto.VotoDto;
+import com.sicredi.api.exception.CpfNaoEncontradoException;
 import com.sicredi.api.model.Associado;
 import com.sicredi.api.model.SessaoVotacao;
 import com.sicredi.api.model.Voto;
 import com.sicredi.api.response.Response;
 import com.sicredi.api.service.VotoService;
+
+import reactor.core.publisher.Mono;
 
 @RestController
 @RequestMapping("/sicredi/voto")
@@ -38,17 +41,31 @@ public class VotoController {
 			return ResponseEntity.badRequest().body(response);
 		}
 
-		Voto voto = votoService.cadastrar(
-				Voto.builder().associado(Associado.builder().id(votoDto.getIdAssociado()).build())
-						.sessaoVotacao(SessaoVotacao.builder().id(votoDto.getIdSessaoVotacao()).build())
-						.decisaoVoto(votoDto.getValorVoto()).build());
-		response.setData(voto);
-		return ResponseEntity.ok(response);
+		try {
+			
+			Associado associadoCadastro = new Associado();
+			associadoCadastro.setId(votoDto.getIdAssociado());
+			
+			SessaoVotacao sessaoVotacaoCadastro = new SessaoVotacao();
+			sessaoVotacaoCadastro.setId(votoDto.getIdSessaoVotacao());
+			
+			Voto votoCadastro = new Voto();
+			votoCadastro.setAssociado(associadoCadastro);
+			votoCadastro.setSessaoVotacao(sessaoVotacaoCadastro);
+			votoCadastro.setDecisaoVoto(votoDto.getValorVoto());
+			
+			Mono<Voto> retorno = votoService.cadastrar(votoCadastro);
+			response.setData(retorno.block());
+			return ResponseEntity.ok(response);
+			
+		} catch (CpfNaoEncontradoException e) {
+			return ResponseEntity.notFound().build();
+		}
 	}
 
 	@ResponseBody
 	@GetMapping(value = "/retornar/votacao/pauta{idPauta}", produces = "application/json")
-	public ResponseEntity<Response<RetornoVotacaoDto>> retornaVotacaoPorPauta(@PathVariable("idPauta") Long idPauta) {
+	public ResponseEntity<Response<RetornoVotacaoDto>> retornaVotacaoPorPauta(@PathVariable("idPauta") String idPauta) {
 		Response<RetornoVotacaoDto> response = new Response<RetornoVotacaoDto>();
 		RetornoVotacaoDto retornoVotacaoDto = votoService.retornaVotacaoPorPauta(idPauta);
 		response.setData(retornoVotacaoDto);

@@ -1,8 +1,9 @@
 package com.sicredi.api.repository;
 
-import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.mongodb.repository.ReactiveMongoRepository;
+
 import com.sicredi.api.model.Pauta;
 
-public interface PautaRepository extends JpaRepository<Pauta, Long>{
+public interface PautaRepository extends ReactiveMongoRepository<Pauta, String>{
 
 }

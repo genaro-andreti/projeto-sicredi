@@ -23,7 +23,7 @@ public class RetornoVotacaoDto {
 
 	private static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
 
-	private Long idPauta;
+	private String idPauta;
 	private String descricaoPauta;
 	private List<RetornoVotoDto> votosDto;
 	private Integer qtdVotosFavoraveis = 0;

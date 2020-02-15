@@ -1,13 +1,13 @@
 package com.sicredi.api.repository;
 
-import java.util.List;
-
 import com.sicredi.api.model.Voto;
+
+import reactor.core.publisher.Flux;
 
 public interface VotoRepositoryCustomSearch {
 	
-	Boolean votoAssociadoCadastradoParaPauta(Long idAssociado, Long idPauta);
+	Boolean votoAssociadoCadastradoParaPauta(String idAssociado, String idPauta);
 	
-	List<Voto> retornaVotacaoPorPauta(Long idPauta);
+	Flux<Voto> retornaVotacaoPorPauta(String idPauta);
 
 }

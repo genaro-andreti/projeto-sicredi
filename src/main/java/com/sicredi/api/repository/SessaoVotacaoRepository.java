@@ -1,9 +1,9 @@
 package com.sicredi.api.repository;
 
-import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.mongodb.repository.ReactiveMongoRepository;
 
 import com.sicredi.api.model.SessaoVotacao;
 
-public interface SessaoVotacaoRepository extends JpaRepository<SessaoVotacao, Long> {
+public interface SessaoVotacaoRepository extends ReactiveMongoRepository<SessaoVotacao, String> {
 
 }

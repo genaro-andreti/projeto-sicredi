@@ -16,6 +16,8 @@ import com.sicredi.api.model.SessaoVotacao;
 import com.sicredi.api.repository.SessaoVotacaoRepository;
 import com.sicredi.api.service.SessaoVotacaoService;
 
+import reactor.core.publisher.Mono;
+
 @SpringBootTest
 @RunWith(SpringRunner.class)
 public class SessaoVotacaoServiceTest {
@@ -28,19 +30,25 @@ public class SessaoVotacaoServiceTest {
 
 	@Test
 	public void quandoCadastraSessaoVotacao() {
-		SessaoVotacao sessaoVotacaoMock = SessaoVotacao.builder().id(1L)
-				.pauta(Pauta.builder().id(1L).build()).inicioSessaoVotacao(LocalDateTime.now())
-				.fimSessaoVotacao(LocalDateTime.now().plusMinutes(2L)).build();
+		SessaoVotacao sessaoVotacaoMock = new SessaoVotacao();
+		sessaoVotacaoMock.setId("1");
+		sessaoVotacaoMock.setInicioSessaoVotacao(LocalDateTime.now());
+		sessaoVotacaoMock.setFimSessaoVotacao(LocalDateTime.now().plusMinutes(2L));
+		
+		Pauta pautaMock = new Pauta();
+		pautaMock.setId("1");
+		
+		sessaoVotacaoMock.setPauta(pautaMock);
 
-		Mockito.when(sessaoVotacaoService.cadastrar(sessaoVotacaoMock)).thenReturn(sessaoVotacaoMock);
+		Mockito.when(sessaoVotacaoService.cadastrar(sessaoVotacaoMock).block()).thenReturn(sessaoVotacaoMock);
 
-		SessaoVotacao sessaoVotacao = sessaoVotacaoService.cadastrar(sessaoVotacaoMock);
+		Mono<SessaoVotacao> sessaoVotacao = sessaoVotacaoService.cadastrar(sessaoVotacaoMock);
 
-		Assertions.assertThat(sessaoVotacaoMock.getId().equals(sessaoVotacao.getId()));
-		Assertions.assertThat(sessaoVotacaoMock.getPauta().equals(sessaoVotacao.getPauta()));
+		Assertions.assertThat(sessaoVotacaoMock.getId().equals(sessaoVotacao.block().getId()));
+		Assertions.assertThat(sessaoVotacaoMock.getPauta().equals(sessaoVotacao.block().getPauta()));
 		Assertions
-				.assertThat(sessaoVotacaoMock.getInicioSessaoVotacao().equals(sessaoVotacao.getInicioSessaoVotacao()));
-		Assertions.assertThat(sessaoVotacaoMock.getFimSessaoVotacao().equals(sessaoVotacao.getFimSessaoVotacao()));
+				.assertThat(sessaoVotacaoMock.getInicioSessaoVotacao().equals(sessaoVotacao.block().getInicioSessaoVotacao()));
+		Assertions.assertThat(sessaoVotacaoMock.getFimSessaoVotacao().equals(sessaoVotacao.block().getFimSessaoVotacao()));
 	}
 
 }

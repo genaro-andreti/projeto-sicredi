@@ -15,6 +15,9 @@ import com.sicredi.api.dto.AssociadoDto;
 import com.sicredi.api.model.Associado;
 import com.sicredi.api.response.Response;
 import com.sicredi.api.service.AssociadoService;
+import com.sicredi.api.service.ValidaCpfService;
+
+import reactor.core.publisher.Mono;
 
 @RestController
 @RequestMapping("/sicredi/associado")
@@ -22,21 +25,28 @@ public class AssociadoController {
 
 	@Autowired
 	private AssociadoService associadoService;
-
+	
+	@Autowired
+	ValidaCpfService validaCpfService;
+	
 	@ResponseBody
 	@PostMapping(path = "/cadastrar", produces = "application/json")
 	public ResponseEntity<Response<Associado>> cadastrar(@Valid @RequestBody AssociadoDto associadoDto, BindingResult result) {
 		Response<Associado> response = new Response<Associado>();
-
+		
 		if (result.hasErrors()) {
 			result.getAllErrors().forEach(
 					error -> response.getErrors().add(error.getDefaultMessage()));
 			return ResponseEntity.badRequest().body(response);
 		}
 
-		Associado associadoCadastrado = associadoService.cadastrar(Associado.builder()
-				.nome(associadoDto.getNome()).login(associadoDto.getLogin()).senha(associadoDto.getSenha()).build());
-		response.setData(associadoCadastrado);
+		Associado associadoCadastro = new Associado();
+		associadoCadastro.setLogin(associadoDto.getLogin());
+		associadoCadastro.setNome(associadoDto.getNome());
+		associadoCadastro.setSenha(associadoDto.getSenha());
+		
+		Mono<Associado> retorno = associadoService.cadastrar(associadoCadastro);
+		response.setData(retorno.block());
 		return ResponseEntity.ok(response);
 	}
 

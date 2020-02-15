@@ -2,10 +2,14 @@ package com.sicredi.api.service;
 
 import com.sicredi.api.model.Associado;
 
+import reactor.core.publisher.Mono;
+
 public interface AssociadoService {
 	
-	Associado cadastrar(Associado ssociado);
+	Mono<Associado> cadastrar(Associado ssociado);
 	
-	Boolean associadoCadastrado(Long idAssociado);
+	Mono<Boolean> associadoCadastrado(String idAssociado);
+	
+	Mono<Associado> findById(String idAssociado);
 
 }

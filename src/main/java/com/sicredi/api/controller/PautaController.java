@@ -16,6 +16,8 @@ import com.sicredi.api.model.Pauta;
 import com.sicredi.api.response.Response;
 import com.sicredi.api.service.PautaService;
 
+import reactor.core.publisher.Mono;
+
 @RestController
 @RequestMapping("/sicredi/pauta")
 public class PautaController {
@@ -28,15 +30,19 @@ public class PautaController {
 	public ResponseEntity<Response<Pauta>> cadastrar(@Valid @RequestBody PautaDto pautaDto, BindingResult result) {
 		Response<Pauta> response = new Response<Pauta>();
 
+
 		if (result.hasErrors()) {
 			result.getAllErrors().forEach(
 					error -> response.getErrors().add(error.getDefaultMessage()));
 			return ResponseEntity.badRequest().body(response);
 		}
+		
+		Pauta pautaCadastro = new Pauta();
+		pautaCadastro.setDescricao(pautaDto.getDescricao());
 
-		Pauta pautaCadastrada = pautaService
-				.cadastrar(Pauta.builder().descricao(pautaDto.getDescricao()).build());
-		response.setData(pautaCadastrada);
+		Mono<Pauta> retorno = pautaService
+				.cadastrar(pautaCadastro);
+		response.setData(retorno.block());
 
 		return ResponseEntity.ok(response);
 	}

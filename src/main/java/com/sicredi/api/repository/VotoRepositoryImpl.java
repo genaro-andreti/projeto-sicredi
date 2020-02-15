@@ -1,54 +1,43 @@
 package com.sicredi.api.repository;
 
-import java.util.List;
-import java.util.Objects;
-
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
-import javax.persistence.criteria.CriteriaBuilder;
-import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.Predicate;
-import javax.persistence.criteria.Root;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.mongodb.core.MongoTemplate;
+import org.springframework.data.mongodb.core.query.Criteria;
+import org.springframework.data.mongodb.core.query.Query;
 
 import org.springframework.stereotype.Repository;
-import org.springframework.util.CollectionUtils;
+import org.springframework.util.ObjectUtils;
 
 import com.sicredi.api.model.Voto;
 
+import reactor.core.publisher.Flux;
+
 @Repository
-public class VotoRepositoryImpl implements VotoRepositoryCustomSearch {
+public class VotoRepositoryImpl 
+//implements VotoRepositoryCustomSearch
+{
 
-	@PersistenceContext
-	private EntityManager em;
+	@Autowired
+	private MongoTemplate mongoTemplate;
 
-	public Boolean votoAssociadoCadastradoParaPauta(Long idPauta, Long idAssociado) {
-		CriteriaBuilder cb = em.getCriteriaBuilder();
-		CriteriaQuery<Voto> cq = cb.createQuery(Voto.class);
+	public Boolean votoAssociadoCadastradoParaPauta(String idAssociado, String idPauta) {
+		
+		Query query = new Query();
+		query.addCriteria(Criteria.where("sessaoVotacao.pauta.id").is(idPauta).and("associado.id").is(idAssociado));
 
-		Root<Voto> book = cq.from(Voto.class);
+		Voto result = mongoTemplate.findOne(query, Voto.class);
 
-		Predicate pautaPredicate = cb.equal(book.get("sessaoVotacao").get("pauta").get("id"), idPauta);
-		Predicate associadoPredicate = cb.equal(book.get("associado").get("id"), idAssociado);
-
-		cq.where(pautaPredicate, associadoPredicate);
-
-		return !CollectionUtils.isEmpty(em.createQuery(cq).getResultList());
+		return !ObjectUtils.isEmpty(result);
 	}
 
-	public List<Voto> retornaVotacaoPorPauta(Long idPauta) {
-		CriteriaBuilder cb = em.getCriteriaBuilder();
-		CriteriaQuery<Voto> cq = cb.createQuery(Voto.class);
+	public Flux<Voto> retornaVotacaoPorPauta(String idPauta) {
 
-		Root<Voto> book = cq.from(Voto.class);
-		Predicate predicate = null;
+		Query query = new Query();
+		query.addCriteria(Criteria.where("sessaoVotacao.pauta.id").is(idPauta));
 
-		if (Objects.nonNull(idPauta)) {
-			predicate = cb.equal(book.get("sessaoVotacao").get("pauta").get("id"), idPauta);
-		}
+		Flux<Voto> result = null;//mongoTemplate.find(query, Voto.class);
 
-		cq.where(predicate);
-
-		return em.createQuery(cq).getResultList();
+		return result;
 	}
 
 }

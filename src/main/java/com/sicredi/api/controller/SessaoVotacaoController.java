@@ -19,6 +19,8 @@ import com.sicredi.api.model.SessaoVotacao;
 import com.sicredi.api.response.Response;
 import com.sicredi.api.service.SessaoVotacaoService;
 
+import reactor.core.publisher.Mono;
+
 @RestController
 @RequestMapping("/sicredi/sessaoVotacao")
 public class SessaoVotacaoController {
@@ -39,11 +41,19 @@ public class SessaoVotacaoController {
 		}
 
 		LocalDateTime dataInicio = LocalDateTime.now();
-		SessaoVotacao sessaoVotacao = sessaoVotacaoService.cadastrar(SessaoVotacao.builder()
-				.inicioSessaoVotacao(dataInicio).fimSessaoVotacao(sessaoVotacaoDto.dataFim(dataInicio))
-				.pauta(Pauta.builder().id(sessaoVotacaoDto.getIdPauta()).build()).build());
+		
+		SessaoVotacao sessaoVotacaoCadastro = new SessaoVotacao();
+		sessaoVotacaoCadastro.setInicioSessaoVotacao(dataInicio);
+		sessaoVotacaoCadastro.setFimSessaoVotacao(dataInicio);
+		
+		Pauta pautaCadastro = new Pauta();
+		pautaCadastro.setId(sessaoVotacaoDto.getIdPauta());
+		
+		sessaoVotacaoCadastro.setPauta(pautaCadastro);
+		
+		Mono<SessaoVotacao> retorno = sessaoVotacaoService.cadastrar(sessaoVotacaoCadastro);
 
-		response.setData(sessaoVotacao);
+		response.setData(retorno.block());
 		return ResponseEntity.ok(response);
 	}
 

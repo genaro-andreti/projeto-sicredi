@@ -3,12 +3,14 @@ package com.sicredi.api.service;
 import com.sicredi.api.dto.RetornoVotacaoDto;
 import com.sicredi.api.model.Voto;
 
+import reactor.core.publisher.Mono;
+
 public interface VotoService {
 
-	Voto cadastrar(Voto voto);
+	Mono<Voto> cadastrar(Voto voto);
 	
-	Boolean votoAssociadoCadastradoParaPauta(Long idAssociado, Long idPauta);
+	Boolean votoAssociadoCadastradoParaPauta(String idAssociado, String idPauta);
 	
-	RetornoVotacaoDto retornaVotacaoPorPauta(Long idPauta);
+	RetornoVotacaoDto retornaVotacaoPorPauta(String idPauta);
 
 }

@@ -13,9 +13,9 @@ import lombok.Setter;
 @Setter
 public class RetornoVotoDto {
 
-	private Long idAssociado;
+	private String idAssociado;
 	private String nomeAssociado;
-	private Long idSessaoVotacao;
+	private String idSessaoVotacao;
 	private String inicioSessaoVotacao;
 	private String fimSessaoVotacao;
 	private String decisao;

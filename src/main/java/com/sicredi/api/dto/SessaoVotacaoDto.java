@@ -17,7 +17,7 @@ public class SessaoVotacaoDto {
 	private Integer tempoSessao;
 
 	@NotNull(message = "Campo Pauta deve ser preenchido.")
-	private Long idPauta;
+	private String idPauta;
 
 	public LocalDateTime dataFim(LocalDateTime dataInicio) {
 		return Objects.isNull(getTempoSessao()) ? dataInicio.plusMinutes(TEMPO_SESSAO_VOTACAO_DEFAULT)

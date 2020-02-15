@@ -13,6 +13,8 @@ import com.sicredi.api.model.Pauta;
 import com.sicredi.api.repository.PautaRepository;
 import com.sicredi.api.service.PautaService;
 
+import reactor.core.publisher.Mono;
+
 @RunWith(SpringRunner.class)
 @SpringBootTest
 public class PautaServiceTest {
@@ -26,14 +28,16 @@ public class PautaServiceTest {
 	@Test
 	public void quandoInserimosUmaPauta() {
 
-		Pauta pautaMock = Pauta.builder().id(1l).descricao("Teste cadastro pauta").build();
+		Pauta pautaMock = new Pauta();
+		pautaMock.setId("1");
+		pautaMock.setDescricao("Teste cadastro pauta");
+		
+		Mockito.when(pautaService.cadastrar(pautaMock).block()).thenReturn(pautaMock);
 
-		Mockito.when(pautaService.cadastrar(pautaMock)).thenReturn(pautaMock);
+		Mono<Pauta> pauta = pautaService.cadastrar(pautaMock);
 
-		Pauta pauta = pautaService.cadastrar(pautaMock);
-
-		Assertions.assertThat(pauta.getId()).isEqualTo(pautaMock.getId());
-		Assertions.assertThat(pauta.getDescricao()).isEqualTo(pautaMock.getDescricao());
+		Assertions.assertThat(pauta.block().getId()).isEqualTo(pautaMock.getId());
+		Assertions.assertThat(pauta.block().getDescricao()).isEqualTo(pautaMock.getDescricao());
 	}
 
 }

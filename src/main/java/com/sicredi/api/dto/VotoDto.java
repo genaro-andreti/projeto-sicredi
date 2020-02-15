@@ -12,10 +12,10 @@ import lombok.Setter;
 public class VotoDto {
 
 	@NotNull(message = "Campo Associado deve ser preenchido.")
-	private Long idAssociado;
+	private String idAssociado;
 
 	@NotNull(message = "Campo Sessão Votação deve ser preenchido.")
-	private Long idSessaoVotacao;
+	private String idSessaoVotacao;
 
 	@NotNull(message = "Campo valor do voto deve ser preenchido.")
 	private VotoEnum valorVoto;
