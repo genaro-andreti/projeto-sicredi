@@ -1,7 +1,5 @@
 package com.sicredi.api.model;
 
-import java.math.BigInteger;
-
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 

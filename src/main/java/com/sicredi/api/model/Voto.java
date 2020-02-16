@@ -1,7 +1,5 @@
 package com.sicredi.api.model;
 
-import java.math.BigInteger;
-
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -14,10 +12,10 @@ public class Voto {
 	@Id
 	private String id;
 	
-	@DBRef
+	@DBRef(lazy = true)
 	private Associado associado;
 	
-	@DBRef
+	@DBRef(lazy = true)
 	private SessaoVotacao sessaoVotacao;
 	
 	private VotoEnum decisaoVoto;

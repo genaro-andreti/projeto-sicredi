@@ -8,10 +8,10 @@ import reactor.core.publisher.Flux;
 
 public interface VotoRepository extends ReactiveMongoRepository<Voto, String>, VotoRepositoryCustomSearch {
 	
-	Flux<Voto> getBySessaoVotacaoPautaId(String idPauta);
+	Flux<Voto> getByAssociadoAndSessaoVotacao(String idAssociado, String idSessaoVotacao);
 	
-	Flux<Voto> getByAssociadoIdAndSessaoVotacaoPautaId(String idAssociado, String idPauta);
-	
-	Flux<Voto> getByAssociadoId(String idAssociado);
+	Flux<Voto> getByAssociado(String idAssociado);
 
+	Flux<Voto> getBySessaoVotacao(String idSessaoVotacao);
+	
 }

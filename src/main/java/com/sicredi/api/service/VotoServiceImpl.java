@@ -35,29 +35,10 @@ public class VotoServiceImpl implements VotoService {
 	
 	@Override
 	public Mono<Voto> cadastrar(Voto voto) {
-		//validaCpf(voto.getAssociado().getId());
 		validaCadastrar(voto);
 		return votoRepository.save(voto);
 	}
 	
-	/*private void validaCpf(String idAssociado) {
-		Mono<Associado> associado = associadoService.findById(idAssociado);
-		
-		if(!ObjectUtils.isEmpty(associado)) {
-			MonoCpfResponse cpfResponse = validaCpfService.validaCpf(associado.block().getLogin());
-			
-			if(CpfEnum.STATUS_404.equals(cpfResponse.getStatus())) {
-				throw new CpfNaoEncontradoException();
-			}
-			
-			if (CpfEnum.UNABLE_TO_VOTE.equals(cpfResponse.getStatus())) {
-				throw new CpfInvalidoParaVotoException();
-			}
-		} else {
-			throw new AssociadoNaoCadastradoException();
-		}
-	}*/
-
 	private void validaCadastrar(Voto voto) {
 		if (!associadoService.associadoCadastrado(voto.getAssociado().getId()).block()) {
 			throw new AssociadoNaoCadastradoException();
@@ -74,9 +55,7 @@ public class VotoServiceImpl implements VotoService {
 			throw new SessaoVotacaoFechadaException();
 		}
 		
-		System.out.println(sessaoCarregada.block().toString());
-
-		if (votoAssociadoCadastradoParaPauta(voto.getAssociado().getId(), sessaoCarregada.block().getPauta().getId())) {
+		if (!votoAssociadoNaoCadastradoParaPauta(voto.getAssociado().getId(), sessaoCarregada.block().getId())) {
 			throw new VotoAssociadoCadastradoParaPautaException();
 		}
 	}
@@ -87,19 +66,20 @@ public class VotoServiceImpl implements VotoService {
 			throw new PautaNaoCadastradoException();
 		}
 
-		Flux<Voto> votos = votoRepository.getBySessaoVotacaoPautaId(idPauta);
+		Mono<SessaoVotacao> sessaoVotacao = sessaoVotacaoService.getByPauta(idPauta);
+		
+		Flux<Voto> votos = votoRepository.getBySessaoVotacao(sessaoVotacao.block().getId());
 		
 		if (votos.collectList().block().isEmpty()) {
 			throw new PautaNaoVotadaException();
 		}
+		
 		return new RetornoVotacaoDto(votos.collectList().block());
 	}
 
 	@Override
-	public Boolean votoAssociadoCadastradoParaPauta(String idAssociado, String idPauta) {
-		
-		Flux<Voto> retorno = votoRepository.getByAssociadoIdAndSessaoVotacaoPautaId(idAssociado, idPauta);
-		return !retorno.collectList().block().isEmpty();
+	public Boolean votoAssociadoNaoCadastradoParaPauta(String idAssociado, String idSessaoVotacao) {
+		return !votoRepository.getByAssociadoAndSessaoVotacao(idAssociado, idSessaoVotacao).collectList().block().isEmpty();
 	}
 
 }

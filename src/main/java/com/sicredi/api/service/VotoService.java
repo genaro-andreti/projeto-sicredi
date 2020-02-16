@@ -9,7 +9,7 @@ public interface VotoService {
 
 	Mono<Voto> cadastrar(Voto voto);
 	
-	Boolean votoAssociadoCadastradoParaPauta(String idAssociado, String idPauta);
+	Boolean votoAssociadoNaoCadastradoParaPauta(String idAssociado, String idPauta);
 	
 	RetornoVotacaoDto retornaVotacaoPorPauta(String idPauta);
 

@@ -9,5 +9,7 @@ public interface SessaoVotacaoService {
 	Mono<SessaoVotacao> cadastrar(SessaoVotacao sessaoVotacao);
 	
 	Mono<SessaoVotacao> sessaoVotacaoCadastrado(String idSessaoVotacao);
+	
+	Mono<SessaoVotacao> getByPauta(String idPauta);
 
 }

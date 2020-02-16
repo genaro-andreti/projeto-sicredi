@@ -1,6 +1,5 @@
 package com.sicredi.api.model;
 
-import java.math.BigInteger;
 import java.time.LocalDateTime;
 
 import org.springframework.data.annotation.Id;
@@ -17,7 +16,7 @@ public class SessaoVotacao {
 
 	private LocalDateTime fimSessaoVotacao;
 	
-	@DBRef
+	@DBRef(lazy = true)
 	private Pauta pauta;
 
 	public String getId() {
