@@ -7,7 +7,6 @@ import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.data.mongodb.core.ReactiveMongoOperations;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import com.sicredi.api.model.Pauta;
@@ -26,17 +25,14 @@ public class PautaServiceTest {
 	@MockBean
 	private PautaRepository pautaRepository;
 	
-	@Autowired
-    ReactiveMongoOperations operations;
-
 	@Test
 	public void quandoInserimosUmaPauta() {
 
 		Pauta pautaMock = new Pauta();
-		pautaMock.setId("5e470eee558efb2b98a876ba");
-		pautaMock.setDescricao("Pauta de teste 2");
+		pautaMock.setId("5e4ace668b4167031d2b72f4");
+		pautaMock.setDescricao("Pauta 1");
 		
-		Mockito.when(pautaRepository.save(pautaMock)).thenReturn(Mono.just(pautaMock));
+		Mockito.when(pautaService.cadastrar(pautaMock)).thenReturn(Mono.just(pautaMock));
 
 		Mono<Pauta> pauta = pautaService.cadastrar(pautaMock);
 

@@ -55,7 +55,7 @@ public class VotoServiceImpl implements VotoService {
 			throw new SessaoVotacaoFechadaException();
 		}
 		
-		if (!votoAssociadoNaoCadastradoParaPauta(voto.getAssociado().getId(), sessaoCarregada.block().getId())) {
+		if (votoAssociadoCadastradoParaPauta(voto.getAssociado().getId(), sessaoCarregada.block().getId())) {
 			throw new VotoAssociadoCadastradoParaPautaException();
 		}
 	}
@@ -78,7 +78,7 @@ public class VotoServiceImpl implements VotoService {
 	}
 
 	@Override
-	public Boolean votoAssociadoNaoCadastradoParaPauta(String idAssociado, String idSessaoVotacao) {
+	public Boolean votoAssociadoCadastradoParaPauta(String idAssociado, String idSessaoVotacao) {
 		return !votoRepository.getByAssociadoAndSessaoVotacao(idAssociado, idSessaoVotacao).collectList().block().isEmpty();
 	}
 

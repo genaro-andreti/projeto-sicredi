@@ -7,7 +7,6 @@ import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.data.mongodb.core.ReactiveMongoOperations;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import com.sicredi.api.model.Associado;
@@ -26,19 +25,16 @@ public class AssociadoServiceTest {
     @MockBean
     private AssociadoRepository repository;
 	
-	@Autowired
-    ReactiveMongoOperations operations;
-	
 	@Test
 	public void quandoInserimosUmAssociado() {
 
 		Associado associadoMock = new Associado();
-		associadoMock.setId("5e470ed5558efb2b98a876b9");
-		associadoMock.setNome("Jim Morrison");
-		associadoMock.setLogin("98999168066");
+		associadoMock.setId("5e4ace478b4167031d2b72f3");
+		associadoMock.setNome("William Wallace");
+		associadoMock.setLogin("89888765678");
 		associadoMock.setSenha("123456");
 		
-		Mockito.when(repository.save(associadoMock)).thenReturn(Mono.just(associadoMock));
+		Mockito.when(associadoService.cadastrar(associadoMock)).thenReturn(Mono.just(associadoMock));
 		
 		Mono<Associado> associado = associadoService.cadastrar(associadoMock);
 
