@@ -6,6 +6,7 @@ CREATE TABLE pauta (
   CREATE TABLE associado (
   id_associado INT NOT NULL AUTO_INCREMENT,
   nome VARCHAR(50) NOT NULL,
+  cpf VARCHAR(15) NOT NULL,
   login VARCHAR(15),
   senha VARCHAR(150),
   PRIMARY KEY (id_associado)) DEFAULT CHARSET=utf8;

@@ -10,6 +10,8 @@ public class Associado {
 	private String id;
 
 	private String nome;
+	
+	private String cpf;
 
 	private String login;
 
@@ -29,6 +31,14 @@ public class Associado {
 
 	public void setNome(String nome) {
 		this.nome = nome;
+	}
+	
+	public String getCpf() {
+		return cpf;
+	}
+
+	public void setCpf(String cpf) {
+		this.cpf = cpf;
 	}
 
 	public String getLogin() {
@@ -51,6 +61,7 @@ public class Associado {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
+		result = prime * result + ((cpf == null) ? 0 : cpf.hashCode());
 		result = prime * result + ((id == null) ? 0 : id.hashCode());
 		result = prime * result + ((login == null) ? 0 : login.hashCode());
 		result = prime * result + ((nome == null) ? 0 : nome.hashCode());
@@ -67,6 +78,11 @@ public class Associado {
 		if (getClass() != obj.getClass())
 			return false;
 		Associado other = (Associado) obj;
+		if (cpf == null) {
+			if (other.cpf != null)
+				return false;
+		} else if (!cpf.equals(other.cpf))
+			return false;
 		if (id == null) {
 			if (other.id != null)
 				return false;
@@ -92,6 +108,8 @@ public class Associado {
 
 	@Override
 	public String toString() {
-		return "Associado [id=" + id + ", nome=" + nome + ", login=" + login + ", senha=" + senha + "]";
+		return "Associado [id=" + id + ", nome=" + nome + ", cpf=" + cpf + ", login=" + login + ", senha=" + senha
+				+ "]";
 	}
+	
 }

@@ -31,12 +31,12 @@ public class SessaoVotacaoServiceTest {
 	@Test
 	public void quandoCadastraSessaoVotacao() {
 		SessaoVotacao sessaoVotacaoMock = new SessaoVotacao();
-		sessaoVotacaoMock.setId("5e4ace768b4167031d2b72f5");
+		sessaoVotacaoMock.setId("60f456fc6f45562807356a0c");
 		sessaoVotacaoMock.setInicioSessaoVotacao(LocalDateTime.now());
-		sessaoVotacaoMock.setFimSessaoVotacao(LocalDateTime.now().plusMinutes(2L));
+		sessaoVotacaoMock.setFimSessaoVotacao(LocalDateTime.now().plusMinutes(30L));
 
 		Pauta pautaMock = new Pauta();
-		pautaMock.setId("5e4ace668b4167031d2b72f4");
+		pautaMock.setId("60f4539d6f45562807356a07");
 
 		sessaoVotacaoMock.setPauta(pautaMock);
 

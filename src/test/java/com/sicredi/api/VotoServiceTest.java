@@ -31,13 +31,13 @@ public class VotoServiceTest {
 	@Test
 	public void quandoCadastraVoto() {
 		Associado associadoMock = new Associado();
-		associadoMock.setId("5e4ad17039d0123376bc026b");
+		associadoMock.setId("60f4559c6f45562807356a0a");
 
 		SessaoVotacao sessaoVotacaoMock = new SessaoVotacao();
-		sessaoVotacaoMock.setId("5e4ace768b4167031d2b72f5");//5e47101f558efb2b98a876be
+		sessaoVotacaoMock.setId("60f456fc6f45562807356a0c");
 
 		Voto votoMock = new Voto();
-		votoMock.setId("5e470f2d558efb2b98a876bc");
+		votoMock.setId("60f454496f45562807356a09");
 		votoMock.setAssociado(associadoMock);
 		votoMock.setSessaoVotacao(sessaoVotacaoMock);
 		votoMock.setDecisaoVoto(VotoEnum.SIM);

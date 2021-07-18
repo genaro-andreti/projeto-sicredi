@@ -1,22 +1,14 @@
 package com.sicredi.api.service;
 
+import org.springframework.cloud.openfeign.FeignClient;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
 
-import org.springframework.stereotype.Service;
-import org.springframework.web.client.RestTemplate;
+import com.sicredi.api.dto.StatusCpf;
 
-import com.sicredi.api.enums.CpfEnum;
-import com.sicredi.api.response.CpfResponse;
+@FeignClient(url= "https://user-info.herokuapp.com/users/" , name = "viacpf")
+public interface ValidaCpfService {
 
-@Service
-public class ValidaCpfService {
-
-	public CpfResponse validaCpf(String cpf){
-        RestTemplate template = new RestTemplate();
-        
-        try {
-        	return template.getForObject("https://user-info.herokuapp.com/users/{cpf}", CpfResponse.class, cpf);
-		} catch (Exception e) {
-			return new CpfResponse(CpfEnum.STATUS_404);
-		}
-    }
+	@RequestMapping("{cpf}")
+	public StatusCpf validaCpf(@PathVariable("cpf") String cpf);
 }

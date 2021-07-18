@@ -9,6 +9,7 @@ import com.sicredi.api.exception.SessaoVotacaoNaoCadastradoException;
 import com.sicredi.api.model.SessaoVotacao;
 import com.sicredi.api.repository.SessaoVotacaoRepository;
 
+import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 @Service
@@ -41,6 +42,17 @@ public class SessaoVotacaoServiceImpl implements SessaoVotacaoService {
 			throw new SessaoVotacaoNaoCadastradoException();
 		}
 		return sessaoVotacaoRepository.getByPauta(idPauta);
+	}
+	
+	@Override
+	public Flux<SessaoVotacao> findAll() {
+		Flux<SessaoVotacao> sessaoVotacao = sessaoVotacaoRepository.findAll();
+		
+		if(ObjectUtils.isEmpty(sessaoVotacao)) {
+			throw new SessaoVotacaoNaoCadastradoException();
+		}
+
+		return sessaoVotacaoRepository.findAll();
 	}
 
 }

@@ -9,6 +9,10 @@ public class AssociadoDto {
 	@NotEmpty(message = "Campo nome deve ser preenchido.")
 	@Length(min = 3, max = 50, message = "Campo nome deve ter entre 3 e 50 caractéres.")
 	private String nome;
+	
+	@NotEmpty(message = "Campo cpf deve ser preenchido.")
+	@Length(min = 11, max = 11, message = "Campo cpf deve ter entre 11 caractéres.")
+	private String cpf;
 
 	@NotEmpty(message = "Campo login deve ser preenchido.")
 	@Length(min = 3, max = 50, message = "Campo login deve ter entre 3 e 50 caractéres.")
@@ -24,6 +28,14 @@ public class AssociadoDto {
 
 	public void setNome(String nome) {
 		this.nome = nome;
+	}
+	
+	public String getCpf() {
+		return cpf;
+	}
+
+	public void setCpf(String cpf) {
+		this.cpf = cpf;
 	}
 
 	public String getLogin() {
@@ -46,6 +58,7 @@ public class AssociadoDto {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
+		result = prime * result + ((cpf == null) ? 0 : cpf.hashCode());
 		result = prime * result + ((login == null) ? 0 : login.hashCode());
 		result = prime * result + ((nome == null) ? 0 : nome.hashCode());
 		result = prime * result + ((senha == null) ? 0 : senha.hashCode());
@@ -61,6 +74,11 @@ public class AssociadoDto {
 		if (getClass() != obj.getClass())
 			return false;
 		AssociadoDto other = (AssociadoDto) obj;
+		if (cpf == null) {
+			if (other.cpf != null)
+				return false;
+		} else if (!cpf.equals(other.cpf))
+			return false;
 		if (login == null) {
 			if (other.login != null)
 				return false;
@@ -81,7 +99,7 @@ public class AssociadoDto {
 
 	@Override
 	public String toString() {
-		return "AssociadoDto [nome=" + nome + ", login=" + login + ", senha=" + senha + "]";
+		return "AssociadoDto [nome=" + nome + ", cpf=" + cpf + ", login=" + login + ", senha=" + senha + "]";
 	}
-	
+
 }

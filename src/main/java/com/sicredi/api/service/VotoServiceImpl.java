@@ -1,5 +1,7 @@
 package com.sicredi.api.service;
 
+import java.util.Objects;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ObjectUtils;
@@ -70,7 +72,7 @@ public class VotoServiceImpl implements VotoService {
 		
 		Flux<Voto> votos = votoRepository.getBySessaoVotacao(sessaoVotacao.block().getId());
 		
-		if (votos.collectList().block().isEmpty()) {
+		if (Objects.nonNull(votos) || votos.collectList().block().isEmpty()) {
 			throw new PautaNaoVotadaException();
 		}
 		
@@ -79,7 +81,8 @@ public class VotoServiceImpl implements VotoService {
 
 	@Override
 	public Boolean votoAssociadoCadastradoParaPauta(String idAssociado, String idSessaoVotacao) {
-		return !votoRepository.getByAssociadoAndSessaoVotacao(idAssociado, idSessaoVotacao).collectList().block().isEmpty();
+		Flux<Voto> votos = votoRepository.getByAssociadoAndSessaoVotacao(idAssociado, idSessaoVotacao);
+		return Objects.nonNull(votos) && !votos.collectList().block().isEmpty();
 	}
 
 }

@@ -29,9 +29,10 @@ public class AssociadoServiceTest {
 	public void quandoInserimosUmAssociado() {
 
 		Associado associadoMock = new Associado();
-		associadoMock.setId("5e4ace478b4167031d2b72f3");
-		associadoMock.setNome("William Wallace");
-		associadoMock.setLogin("89888765678");
+		associadoMock.setId("60f453556f45562807356a06");
+		associadoMock.setNome("Genaro");
+		associadoMock.setCpf("98999168034");
+		associadoMock.setLogin("gena");
 		associadoMock.setSenha("123456");
 		
 		Mockito.when(associadoService.cadastrar(associadoMock)).thenReturn(Mono.just(associadoMock));
@@ -40,6 +41,7 @@ public class AssociadoServiceTest {
 
 		Assertions.assertThat(associado.block().getId()).isEqualTo(associadoMock.getId());
 		Assertions.assertThat(associado.block().getNome()).isEqualTo(associadoMock.getNome());
+		Assertions.assertThat(associado.block().getCpf()).isEqualTo(associadoMock.getCpf());
 		Assertions.assertThat(associado.block().getLogin()).isEqualTo(associadoMock.getLogin());
 		Assertions.assertThat(associado.block().getSenha()).isEqualTo(associadoMock.getSenha());
 	}

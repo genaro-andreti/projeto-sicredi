@@ -29,8 +29,8 @@ public class PautaServiceTest {
 	public void quandoInserimosUmaPauta() {
 
 		Pauta pautaMock = new Pauta();
-		pautaMock.setId("5e4ace668b4167031d2b72f4");
-		pautaMock.setDescricao("Pauta 1");
+		pautaMock.setId("60f4539d6f45562807356a07");
+		pautaMock.setDescricao("Pauta teste");
 		
 		Mockito.when(pautaService.cadastrar(pautaMock)).thenReturn(Mono.just(pautaMock));
 
